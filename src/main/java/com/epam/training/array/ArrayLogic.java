@@ -1,24 +1,33 @@
 package com.epam.training.array;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ArrayLogic {
 
 	// TODO: write it using binary search
 	public static boolean exists(Array array, int element) {
-		if (array.equals(null)) {
-			throw new UnsupportedOperationException("No array found.");
+		int[] sorted = ArraySorter.sort(array).getItems();
+		boolean result = false;
+		if (sorted != null) {
+			int low = 0, high = sorted.length, mid;
+			while (low < high) {
+				mid = (low + high) >>> 1;
+				if (element == sorted[mid]) {
+					result = true;
+					break;
+				} else {
+					if (element < sorted[mid]) {
+						high = mid;
+					} else {
+						low = mid + 1;
+					}
+				}
+			}
 		}
-		Array sortedArray = ArraySorter.sort(array);
-		int[] sortedArrayItems = sortedArray.getItems();
-		return Arrays.binarySearch(sortedArrayItems, element) >= 0;
+		return result;
 	}
 
 	public static Array findPrimeNumbers(Array array) {
-		if (array.equals(null)) {
-			throw new UnsupportedOperationException("No array found.");
-		}
 		int[] arrayItems = array.getItems();
 		ArrayList<Integer> primeNumbers = new ArrayList<Integer>();
 
@@ -52,9 +61,6 @@ public class ArrayLogic {
 	// TODO: add other methods here
 
 	public static int findMinValue(Array array) {
-		if (array.equals(null)) {
-			throw new UnsupportedOperationException("No array found.");
-		}
 		int[] arrayItems = array.getItems();
 		int minValue = arrayItems[0];
 		for (int i = 1; i < arrayItems.length; i++) {
@@ -66,9 +72,6 @@ public class ArrayLogic {
 	}
 
 	public static int findMaxValue(Array array) {
-		if (array.equals(null)) {
-			throw new UnsupportedOperationException("No array found.");
-		}
 		int[] arrayItems = array.getItems();
 		int maxValue = arrayItems[0];
 		for (int i = 1; i < arrayItems.length; i++) {
@@ -80,9 +83,6 @@ public class ArrayLogic {
 	}
 
 	public static Array findFabonacciNumbers(Array array) {
-		if (array.equals(null)) {
-			throw new UnsupportedOperationException("No array found.");
-		}
 		ArrayList<Integer> fibonacciNumbers = new ArrayList<Integer>();
 		ArrayList<Integer> result = new ArrayList<Integer>();
 		Array workingArray = ArraySorter.sort(array);
